@@ -40,6 +40,16 @@ public class TestSerialization extends TestCase {
     private List<Bar> bars = new ArrayList<Bar>();
     private List<BarImpl> barImpls = new ArrayList<BarImpl>();
 
+    private Number number = 123;
+
+    public Number getNumber() {
+      return number;
+    }
+
+    public void setNumber(Number number) {
+      this.number = number;
+    }
+
     public BarImpl getBarImpl() {
       return barImpl;
     }

@@ -40,6 +40,8 @@ public class CodecRegistry {
     primitiveCodecs.put(java.lang.Float.class, new FloatCodec());
     primitiveCodecs.put(java.lang.Double.class, new DoubleCodec());
 
+    primitiveCodecs.put(java.lang.Number.class, new NumberCodec());
+
     primitiveCodecs.put(java.math.BigInteger.class, new BigIntegerCodec());
     primitiveCodecs.put(java.math.BigDecimal.class, new BigDecimalCodec());
 

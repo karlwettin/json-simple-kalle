@@ -74,6 +74,13 @@ public class BufferedJSONStreamReader extends JSONStreamReader {
     return values.get(cursor);
   }
 
+  public void expectNext(Event event) throws IOException, ParseException {
+    Event next = next();
+    if (next != event) {
+      throw new IOException("Expected " + event + " but got " + next);
+    }
+  }
+
   @Override
   public Event next() throws IOException, ParseException {
     if (cursor > 0) {
@@ -138,4 +145,9 @@ public class BufferedJSONStreamReader extends JSONStreamReader {
   public void setDebug(boolean debug) {
     this.debug = debug;
   }
+
+  public Event getEvent() {
+    return events.get(cursor);
+  }
+
 }

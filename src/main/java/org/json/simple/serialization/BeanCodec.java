@@ -190,12 +190,7 @@ public class BeanCodec<T> extends Codec<T> {
   }
 
   public T unmarshall(BufferedJSONStreamReader jsr) throws ParseException, IOException {
-
-    JSONStreamReader.Event event = jsr.next();
-    if (event != JSONStreamReader.Event.START_OBJECT) {
-      throw new RuntimeException("Expected " + JSONStreamReader.Event.START_OBJECT.name() + " but was " + event.name());
-    }
-
+    jsr.expectNext(JSONStreamReader.Event.START_OBJECT);
     return unmarshallBean(jsr);
   }
 

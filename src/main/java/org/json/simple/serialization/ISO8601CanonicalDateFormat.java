@@ -22,10 +22,10 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
- * Code from Apache Solr.
+ * Code originally from Apache Solr.
  * <p/>
  * DateFormat that can <b>format</b> in the canonical ISO8601 date format,
- * not including the trailing "Z".
+ * including or excluding the trailing "Z".
  *
  * @since 2009-jul-03 03:26:54
  */
@@ -64,6 +64,9 @@ public class ISO8601CanonicalDateFormat extends SimpleDateFormat {
   }
 
   public Date parse(String i, ParsePosition p) {
+    if (i.endsWith("Z")) {
+      i = i.substring(0, i.length() -1);
+    }
     /* delegate to SimpleDateFormat for easy stuff */
     Date d = super.parse(i, p);
     int milliIndex = p.getIndex();
@@ -99,6 +102,7 @@ public class ISO8601CanonicalDateFormat extends SimpleDateFormat {
       pos.setBeginIndex(posBegin);
       pos.setEndIndex(toAppendTo.length());
     }
+    toAppendTo.append('Z');
     return toAppendTo;
   }
 

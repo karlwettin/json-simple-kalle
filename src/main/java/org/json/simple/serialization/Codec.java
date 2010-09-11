@@ -22,6 +22,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -60,6 +61,16 @@ public abstract class Codec<T> {
    */
   public T unmarshall(String stringValue) throws UnsupportedOperationException {
     throw new UnsupportedOperationException("Not implemented");
+  }
+
+  public T unmarshall(Reader reader) throws ParseException, IOException {
+    BufferedJSONStreamReader jsr = new BufferedJSONStreamReader(reader);
+    jsr.expectNext(BufferedJSONStreamReader.Event.START_DOCUMENT);
+    T t = unmarshall(jsr);
+    if (jsr.getEvent() != BufferedJSONStreamReader.Event.END_DOCUMENT) {
+      jsr.expectNext(BufferedJSONStreamReader.Event.END_DOCUMENT);
+    }
+    return t;
   }
 
 
