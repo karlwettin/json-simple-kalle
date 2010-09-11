@@ -23,10 +23,11 @@
       <url>scp://kodapan.se/home/kalle/www/kodapan/maven/repository</url>
     </repository>
   </distributionManagement>
-  
+
   <build>
     <finalName>json-simple-kalle</finalName>
     <plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -112,4 +113,10 @@
 
 
   </dependencies>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  
 </project>
