@@ -9,6 +9,12 @@ JSONStreamReader is rather simple to use, just an extention on the JSON lexer,
 and rather similar to XMLStreamReader. Also see BufferedJSONStreamReader.
 For examples see BeanCodec that is built using above.
 
+Caveat emptor:
+
+  * Does NOT (yet) support arrays (nor matrices of arrays). Workaround, use some sort of Collection.
+  * Does NOT (yet) support Map. Not even sure how this should be mapped to JSON.
+
+
 Simple bean serialization example:
   
     CodecRegistry registry = new CodecRegistry();
