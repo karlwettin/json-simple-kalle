@@ -82,7 +82,16 @@ public class BeanCodec<T> extends Codec<T> {
         continue;
       }
       fieldCodecs.put(field, codecRegistry.getCodec(field, null));
-      fieldsByName.put(field.getName(), field);
+
+      String attribute = field.getName();
+      JSON annotation = field.getAnnotation(JSON.class);
+      if (annotation != null) {
+        if (annotation.attribute() != null) {
+          attribute = annotation.attribute();
+        }
+      }
+      fieldsByName.put(attribute, field);
+
 
     }
   }
@@ -154,12 +163,12 @@ public class BeanCodec<T> extends Codec<T> {
     }
 
 
-    for (Field field : fieldsByName.values()) {
+    for (Map.Entry<String, Field> fieldEntry : fieldsByName.entrySet()) {
       if (log.isDebugEnabled() && !"".equals(path)) {
-        log.debug("Marshalling " + path + "#" + field.getName());
+        log.debug("Marshalling " + path + "#" + fieldEntry.getValue().getName());
       }
-      Object value = get(bean, field);
-      Codec codec = codecRegistry.getCodec(field, value);      
+      Object value = get(bean, fieldEntry.getValue());
+      Codec codec = codecRegistry.getCodec(fieldEntry.getValue(), value);
       if (!codec.isNull(value)) {
         if (needsComma) {
           json.append(",");
@@ -168,7 +177,7 @@ public class BeanCodec<T> extends Codec<T> {
         json.append("\n");
         addIndentation(json, indentation);
         json.append("\"");
-        json.append(field.getName());
+        json.append(fieldEntry.getKey());
         json.append("\" : ");
 
         StringBuilder childPath = new StringBuilder();
@@ -176,10 +185,10 @@ public class BeanCodec<T> extends Codec<T> {
           childPath.append(path);
           childPath.append(".");
         }
-        childPath.append(field.getName());
+        childPath.append(fieldEntry.getKey());
 
 
-        codec.marshall(value, field.getType(), json, childPath.toString(), indentation + 1);
+        codec.marshall(value, fieldEntry.getValue().getType(), json, childPath.toString(), indentation + 1);
 
         needsComma = true;
       }
