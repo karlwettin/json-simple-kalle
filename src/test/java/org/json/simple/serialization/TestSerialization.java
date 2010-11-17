@@ -22,11 +22,11 @@ public class TestSerialization extends TestCase {
       foo.getBarImpls().add(new BarImpl());
     }
 
-    String json = registry.getCodec(Foo.class).marshall(foo);
+    String json = registry.getCodec(Foo.class).marshal(foo);
 
     System.out.println(json);
 
-    Foo foo2 = registry.getCodec(Foo.class).unmarshall(json);
+    Foo foo2 = registry.getCodec(Foo.class).unmarshal(json);
 
     System.currentTimeMillis();
 

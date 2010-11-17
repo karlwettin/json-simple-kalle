@@ -1,5 +1,7 @@
 package org.json.simple.serialization.primitives;
 
+import org.json.simple.JSONValue;
+
 import java.net.URLEncoder;
 import java.net.URLDecoder;
 
@@ -27,31 +29,19 @@ public class StringCodec extends PrimitiveCodec<String> {
 
 
 
-  public String marshall(String attributeValue) {
+  public String marshal(String attributeValue) {
     return escape(attributeValue);
   }
 
-  public String unmarshall(String stringValue) {
+  public String unmarshal(String stringValue) {
     return stringValue;
   }
 
-  public static String escape(CharSequence input) {
-    StringBuilder out = new StringBuilder(input.length() + 16);
+  public static String escape(String input) {
 
-    for (int i = 0; i < input.length(); i++) {
-      char c = input.charAt(i);
-      switch (c) {
-        case '"':
-          out.append("\\\"");
-          break;
-        case '\\':
-          out.append("\\\\");
-          break;
-        default:
-          out.append(c);
-      }
-    }
-    return out.toString();
+    // todo iterate forward looking for something to escape before instantiating and copying stuff!
+
+    return JSONValue.escape(input);
   }
 
 }

@@ -28,22 +28,22 @@ import java.io.PrintWriter;
  */
 public class LongCodec extends PrimitiveCodec<Long> {
 
-  public void marshall(Long object, Class definedType, PrintWriter json, String path, int indentation) {
-    json.append(marshall(object));
+  public void marshal(Long object, Class definedType, PrintWriter json, String path, int indentation) {
+    json.append(marshal(object));
   }
 
-  public String marshall(Long attributeValue) {
+  public String marshal(Long attributeValue) {
     return String.valueOf(attributeValue);
   }
 
   @Override
-  public Long unmarshall(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public Long unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
     jsr.next(); // value
     return jsr.getLongValue();
   }
 
 
-  public Long unmarshall(String stringValue) {
+  public Long unmarshal(String stringValue) {
     return Long.valueOf(stringValue);
   }
 }

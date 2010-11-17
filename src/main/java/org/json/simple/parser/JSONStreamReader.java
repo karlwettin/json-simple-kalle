@@ -393,4 +393,8 @@ public class JSONStreamReader {
       return name;
     }
   }
+
+  public Yytoken getToken() {
+    return token;
+  }
 }

@@ -54,7 +54,6 @@ public class BeanCodec<T> extends Codec<T> {
 
   private Class<T> beanClass;
   private CodecRegistry codecRegistry;
-  private Map<Field, Codec> fieldCodecs = new LinkedHashMap<Field, Codec>();
   private Map<String, Field> fieldsByName = new LinkedHashMap<String, Field>();
 
   public void resolve(CodecRegistry codecRegistry, Class<T> beanClass) {
@@ -81,7 +80,6 @@ public class BeanCodec<T> extends Codec<T> {
       if (Modifier.isStatic(field.getModifiers()) || Modifier.isTransient(field.getModifiers())) {
         continue;
       }
-      fieldCodecs.put(field, codecRegistry.getCodec(field, null));
 
       String attribute = field.getName();
       JSON annotation = field.getAnnotation(JSON.class);
@@ -101,35 +99,35 @@ public class BeanCodec<T> extends Codec<T> {
    * Output often same as String.valueOf(object);
    * This does not include JSON value syntax such as "", ["",""] and { ... }.
    * <p/>
-   * Used mostly to marshall primary key values, but all primitives also implement this method.
+   * Used mostly to marshal primary key values, but all primitives also implement this method.
    *
-   * @param object instance to be marshalled
-   * @return marshalled valued of parameter object
+   * @param object instance to be marshaled
+   * @return marshaled valued of parameter object
    * @throws UnsupportedOperationException if the generic type for this codec can not be serialized to a single primitive value.
    */
   @Override
-  public String marshall(T object) {
+  public String marshal(T object) {
     StringWriter sw = new StringWriter(49152);
     PrintWriter pw = new PrintWriter(sw);
-    marshall(object, object.getClass(), pw, "", 0);
+    marshal(object, object.getClass(), pw, "", 0);
     pw.flush();
     return sw.toString();
   }
 
 
-  public void marshall(T object, PrintWriter pw) {
-    marshall(object, object.getClass(), pw, "", 0);
+  public void marshal(T object, PrintWriter pw) {
+    marshal(object, object.getClass(), pw, "", 0);
   }
 
   /**
-   * @see #marshall(Object)
+   * @see #marshal(Object)
    */
   @Override
-  public T unmarshall(String stringValue) {
+  public T unmarshal(String stringValue) {
     BufferedJSONStreamReader jsr = new BufferedJSONStreamReader(new StringReader(stringValue));
     try {
       jsr.next(); // START DOCUMENT
-      return unmarshall(jsr);
+      return unmarshal(jsr);
     } catch (ParseException e) {
       throw new RuntimeException(e);
     } catch (IOException e) {
@@ -143,7 +141,7 @@ public class BeanCodec<T> extends Codec<T> {
    * @param path
    * @param indentation @return json representation
    */
-  public void marshall(T bean, Class definedType, PrintWriter json, String path, int indentation) {
+  public void marshal(T bean, Class definedType, PrintWriter json, String path, int indentation) {
 
     if (log.isDebugEnabled()) {
       log.debug("Marshalling " + path + " " + bean.getClass().getName() + " defined as " + definedType.getName());
@@ -168,7 +166,9 @@ public class BeanCodec<T> extends Codec<T> {
         log.debug("Marshalling " + path + "#" + fieldEntry.getValue().getName());
       }
       Object value = get(bean, fieldEntry.getValue());
+
       Codec codec = codecRegistry.getCodec(fieldEntry.getValue(), value);
+
       if (!codec.isNull(value)) {
         if (needsComma) {
           json.append(",");
@@ -188,7 +188,7 @@ public class BeanCodec<T> extends Codec<T> {
         childPath.append(fieldEntry.getKey());
 
 
-        codec.marshall(value, fieldEntry.getValue().getType(), json, childPath.toString(), indentation + 1);
+        codec.marshal(value, fieldEntry.getValue().getType(), json, childPath.toString(), indentation + 1);
 
         needsComma = true;
       }
@@ -198,13 +198,13 @@ public class BeanCodec<T> extends Codec<T> {
 
   }
 
-  public T unmarshall(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public T unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
     jsr.expectNext(JSONStreamReader.Event.START_OBJECT);
-    return unmarshallBean(jsr);
+    return unmarshalBean(jsr);
   }
 
 
-  public T unmarshallBean(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public T unmarshalBean(BufferedJSONStreamReader jsr) throws ParseException, IOException {
 
     if (log.isDebugEnabled()) {
       log.debug("Unmarshalling " + beanClass.getName());
@@ -274,7 +274,7 @@ public class BeanCodec<T> extends Codec<T> {
         codec = codecRegistry.getCodec(field, null);
       }
 
-      set(bean, field, codec.unmarshall(jsr));
+      set(bean, field, codec.unmarshal(jsr));
 
 
       event = jsr.next();
@@ -305,10 +305,6 @@ public class BeanCodec<T> extends Codec<T> {
 
   public CodecRegistry getCodecRegistry() {
     return codecRegistry;
-  }
-
-  public Map<Field, Codec> getFieldCodecs() {
-    return fieldCodecs;
   }
 
   public Map<String, Field> getFieldsByName() {

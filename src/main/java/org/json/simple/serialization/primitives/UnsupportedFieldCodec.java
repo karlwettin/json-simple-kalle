@@ -23,12 +23,12 @@ package org.json.simple.serialization.primitives;
 public class UnsupportedFieldCodec extends PrimitiveCodec {
 
   @Override
-  public String marshall(Object attributeValue) {
+  public String marshal(Object attributeValue) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public Object unmarshall(String stringValue) {
+  public Object unmarshal(String stringValue) {
     throw new UnsupportedOperationException();
   }
 }

@@ -1,5 +1,6 @@
 package org.json.simple.serialization;
 
+import org.json.simple.serialization.collections.PrimitiveArrayCodec;
 import sun.reflect.generics.reflectiveObjects.TypeVariableImpl;
 
 import java.lang.reflect.Field;
@@ -81,11 +82,12 @@ public class CodecRegistry {
    */
   public Codec getCodec(Field field, Object instance) {
     if (field.getType().isArray()) {
-      Codec codec = getCodec(field.getType());
-      if (codec == null) {
-        codec = new ArrayCodec(getPrimitiveGenericType(field));
+      Class genericType = field.getType().getComponentType();
+      if (genericType.isPrimitive()) {
+        return new PrimitiveArrayCodec(this, genericType);
+      } else {
+        return new ArrayCodec(this, genericType);
       }
-      return codec;
 
     } else if (List.class.isAssignableFrom(field.getType())) {
       Class genericType = getPrimitiveGenericType(field);
@@ -108,7 +110,11 @@ public class CodecRegistry {
 
     } else if (Map.class.isAssignableFrom(field.getType())) {
       Class[] genericTypes = getGenericTypes(field);
-      return new MapCodec(genericTypes[0], genericTypes[1]);
+      if (genericTypes != null) {
+        return new MapCodec(this, genericTypes[0], genericTypes[1]);
+      } else {
+        return new MapCodec(this, Object.class, Object.class);
+      }
     }
 
     if (instance == null) {
@@ -132,11 +138,15 @@ public class CodecRegistry {
         // this value is not read here,
         // instead the class of the type is picked up from the json value "class" (Codec#classIdentifier) of each instance.
         return null;
+      } else if (pt.getActualTypeArguments()[0] instanceof  ParameterizedType) {
+        // this is an array/collection/map that contains another array/collection/map
+        return (Class)((ParameterizedType) pt.getActualTypeArguments()[0]).getRawType();
       } else {
         return (Class) pt.getActualTypeArguments()[0];
       }
     } else {
-      throw new RuntimeException("List is missing generic type argument! " + field.toString());
+      return null;
+//      throw new RuntimeException("Missing generic type argument! " + field.toString());
     }
   }
 
@@ -150,7 +160,8 @@ public class CodecRegistry {
       }
       return result;
     } else {
-      throw new RuntimeException("List is missing generic type argument!");
+      return null;
+//      throw new RuntimeException("Missing generic type argument! " + field.toString());
     }
   }
 

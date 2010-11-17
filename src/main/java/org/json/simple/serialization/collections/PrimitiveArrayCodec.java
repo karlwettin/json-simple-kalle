@@ -1,4 +1,4 @@
-package org.json.simple.serialization.primitives;
+package org.json.simple.serialization.collections;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -19,18 +19,29 @@ package org.json.simple.serialization.primitives;
 import org.json.simple.parser.BufferedJSONStreamReader;
 import org.json.simple.parser.ParseException;
 import org.json.simple.serialization.Codec;
+import org.json.simple.serialization.CodecRegistry;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
 
 /**
- * A primitive codec can mashall a single value to a single string and vice verse.
- *
  * @author kalle@apache.org
- * @since 2009-jul-03 14:32:49
+ * @since 2009-jul-03 06:17:10
  */
-public abstract class PrimitiveCodec<T> extends Codec<T> {
+public class PrimitiveArrayCodec extends Codec<Object> {
+
+  private Class genericType;
+  private CodecRegistry codecRegistry;
+
+  public PrimitiveArrayCodec(CodecRegistry codecRegistry, Class genericType) {
+    if (!genericType.isPrimitive()) {
+      throw new RuntimeException(genericType.getName() + " is not a primitive!");
+    }
+    this.genericType = genericType;
+    this.codecRegistry = codecRegistry;
+  }
+
 
   /**
    * Appends the JSON value for a given object to a StringBuffer.
@@ -42,22 +53,16 @@ public abstract class PrimitiveCodec<T> extends Codec<T> {
    * @param path
    * @param indentation
    */
-  public void marshal(T object, Class definedType, PrintWriter json, String path, int indentation) {
-    json.append("\"");
-    json.append(marshal(object));
-    json.append("\"");
+  public void marshal(Object object, Class definedType, PrintWriter json, String path, int indentation) {
+    throw new UnsupportedOperationException("Primitive array of type \"" + genericType.getName() + "[] is unsupported\"");
+
   }
 
-  @Override
-  public T unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
-    jsr.next();
-    return unmarshal(jsr.getStringValue());
+  /**
+   * @param jsr
+   * @return
+   */
+  public Object[] unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+    throw new UnsupportedOperationException("Not implemented");
   }
-
-  @Override
-  public abstract String marshal(T attributeValue);
-
-  @Override
-  public abstract T unmarshal(String stringValue);
-
 }

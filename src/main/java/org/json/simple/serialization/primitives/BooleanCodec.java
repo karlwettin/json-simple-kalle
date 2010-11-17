@@ -29,20 +29,20 @@ import java.io.PrintWriter;
 public class BooleanCodec extends PrimitiveCodec<Boolean> {
 
 
-  public void marshall(Boolean object, Class definedType, PrintWriter json, String path, int indentation) {
-    json.append(marshall(object));
+  public void marshal(Boolean object, Class definedType, PrintWriter json, String path, int indentation) {
+    json.append(marshal(object));
   }
 
-  public String marshall(Boolean attributeValue) {
+  public String marshal(Boolean attributeValue) {
     return String.valueOf(attributeValue);
   }
 
-  public Boolean unmarshall(String stringValue) {
+  public Boolean unmarshal(String stringValue) {
     return Boolean.valueOf(stringValue);
   }
 
   @Override
-  public Boolean unmarshall(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public Boolean unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
     jsr.next(); // value
     return jsr.getBooleanValue();
   }

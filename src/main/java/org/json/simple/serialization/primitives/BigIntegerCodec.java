@@ -24,11 +24,11 @@ import java.math.BigInteger;
  */
 public class BigIntegerCodec extends PrimitiveCodec<BigInteger> {
 
-  public String marshall(BigInteger attributeValue) {
+  public String marshal(BigInteger attributeValue) {
     return attributeValue.toString();
   }
 
-  public BigInteger unmarshall(String stringValue) {
+  public BigInteger unmarshal(String stringValue) {
     return new BigInteger(stringValue);
   }
 }

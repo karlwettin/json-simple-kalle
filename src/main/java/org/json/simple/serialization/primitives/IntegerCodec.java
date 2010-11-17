@@ -29,22 +29,22 @@ import java.io.PrintWriter;
 public class IntegerCodec extends PrimitiveCodec<Integer> {
 
 
-  public void marshall(Integer object, Class definedType, PrintWriter json, String path, int indentation) {
-    json.append(marshall(object));    
+  public void marshal(Integer object, Class definedType, PrintWriter json, String path, int indentation) {
+    json.append(marshal(object));
   }
 
   @Override
-  public Integer unmarshall(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public Integer unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
     jsr.next(); // value
     return jsr.getLongValue().intValue();
   }
 
   @Override
-  public String marshall(Integer attributeValue) {
+  public String marshal(Integer attributeValue) {
     return String.valueOf(attributeValue);
   }
 
-  public Integer unmarshall(String stringValue) {
+  public Integer unmarshal(String stringValue) {
     return Integer.valueOf(stringValue);
   }
 }

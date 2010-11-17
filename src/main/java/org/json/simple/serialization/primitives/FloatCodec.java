@@ -30,7 +30,7 @@ public class FloatCodec extends PrimitiveCodec<Float> {
 
   // todo nil, inv, -inv
 
-  public String marshall(Float attributeValue) {
+  public String marshal(Float attributeValue) {
     if (attributeValue == null) {
       return "\"null\"";
     } else if (Float.isNaN(attributeValue)) {
@@ -45,7 +45,7 @@ public class FloatCodec extends PrimitiveCodec<Float> {
 
   }
 
-  public Float unmarshall(String stringValue) {
+  public Float unmarshal(String stringValue) {
     if ("null".equals(stringValue)) {
       return null;
     }
@@ -53,13 +53,13 @@ public class FloatCodec extends PrimitiveCodec<Float> {
   }
 
   @Override
-  public Float unmarshall(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public Float unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
     jsr.next(); // value
     return jsr.getNumberValue().floatValue();
   }
 
   @Override
-  public void marshall(Float object, Class definedType, PrintWriter json, String path, int indentation) {
-    json.append(marshall(object));
+  public void marshal(Float object, Class definedType, PrintWriter json, String path, int indentation) {
+    json.append(marshal(object));
   }
 }

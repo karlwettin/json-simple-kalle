@@ -19,6 +19,7 @@ package org.json.simple.serialization.collections;
 import org.json.simple.parser.BufferedJSONStreamReader;
 import org.json.simple.parser.ParseException;
 import org.json.simple.serialization.Codec;
+import org.json.simple.serialization.CodecRegistry;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,9 +32,11 @@ import java.io.PrintWriter;
 public class ArrayCodec extends Codec<Object[]> {
 
   private Class genericType;
+  private CodecRegistry codecRegistry;
 
-  public ArrayCodec(Class genericType) {
+  public ArrayCodec(CodecRegistry codecRegistry, Class genericType) {
     this.genericType = genericType;
+    this.codecRegistry = codecRegistry;
   }
 
 
@@ -47,8 +50,8 @@ public class ArrayCodec extends Codec<Object[]> {
    * @param path
    * @param indentation
    */
-  public void marshall(Object[] object, Class definedType, PrintWriter json, String path, int indentation) {
-    json.append("Primitive array of type \"").append(genericType.getName()).append("[] is unsupported\"");
+  public void marshal(Object[] object, Class definedType, PrintWriter json, String path, int indentation) {
+    throw new UnsupportedOperationException("Array of type \"" + genericType.getName() + "[] is unsupported\"");
 
   }
 
@@ -56,7 +59,7 @@ public class ArrayCodec extends Codec<Object[]> {
    * @param jsr
    * @return
    */
-  public Object[] unmarshall(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public Object[] unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
     throw new UnsupportedOperationException("Not implemented");
   }
 }

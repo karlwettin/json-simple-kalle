@@ -57,14 +57,18 @@ public abstract class CollectionCodec extends Codec<Collection> {
    * @param path
    * @param indentation
    */
-  public void marshall(Collection object, Class definedType, PrintWriter json, String path, int indentation) {
+  public void marshal(Collection object, Class definedType, PrintWriter json, String path, int indentation) {
     json.append("\n");
     addIndentation(json, indentation);
     json.append("[");
     for (Iterator it = object.iterator(); it.hasNext();) {
       Object item = it.next();
-      Codec codec = codecRegistry.getCodec(item.getClass());
-      codec.marshall(item, primitiveGenericType, json, path, indentation + 1);
+      if (item == null) {
+        json.append("null");
+      } else {
+        Codec codec = codecRegistry.getCodec(item.getClass());
+        codec.marshal(item, primitiveGenericType, json, path, indentation + 1);
+      }
       if (it.hasNext()) {
         json.append(",");
       }
@@ -77,10 +81,10 @@ public abstract class CollectionCodec extends Codec<Collection> {
   public abstract Collection collectionFactory();
 
   /**
-   * @param jsr root object to be unmarshalled
+   * @param jsr root object to be unmarshaled
    * @return
    */
-  public Collection unmarshall(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public Collection unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
     Collection list = collectionFactory();
 
     JSONStreamReader.Event event = jsr.next();
@@ -125,11 +129,11 @@ public abstract class CollectionCodec extends Codec<Collection> {
         }
 
         BeanCodec codec = (BeanCodec) codecRegistry.getCodec(field_class);
-        list.add(codec.unmarshallBean(jsr));
+        list.add(codec.unmarshalBean(jsr));
 
       } else {
         event = jsr.back();
-        list.add(codecRegistry.getCodec(primitiveGenericType).unmarshall(jsr));
+        list.add(codecRegistry.getCodec(primitiveGenericType).unmarshal(jsr));
       }
 
       event = jsr.next();
@@ -143,7 +147,7 @@ public abstract class CollectionCodec extends Codec<Collection> {
   }
 
   /**
-   * Returns true if the field should not be marshalled to json. A list with size 0 for instance.
+   * Returns true if the field should not be marshaled to json. A list with size 0 for instance.
    *
    * @param list
    * @return

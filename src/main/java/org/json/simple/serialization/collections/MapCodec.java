@@ -19,9 +19,11 @@ package org.json.simple.serialization.collections;
 import org.json.simple.parser.BufferedJSONStreamReader;
 import org.json.simple.parser.ParseException;
 import org.json.simple.serialization.Codec;
+import org.json.simple.serialization.CodecRegistry;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.Map;
 
 
@@ -31,11 +33,14 @@ import java.util.Map;
  */
 public class MapCodec extends Codec<Map> {
 
+  private CodecRegistry codecRegistry;
+
   private Class genericKeyType;
   private Class genericValueType;
 
 
-  public MapCodec(Class genericKeyType, Class genericValueType) {
+  public MapCodec(CodecRegistry codecRegistry, Class genericKeyType, Class genericValueType) {
+    this.codecRegistry = codecRegistry;
     this.genericKeyType = genericKeyType;
     this.genericValueType = genericValueType;
   }
@@ -50,15 +55,41 @@ public class MapCodec extends Codec<Map> {
    * @param path
    * @param indentation
    */
-  public void marshall(Map object, Class definedType, PrintWriter json, String path, int indentation) {
-    json.append("\"java.util.Map<").append(genericKeyType.getName()).append(", ").append(genericValueType.getName()).append("> is unsupported\"");
+  public void marshal(Map object, Class definedType, PrintWriter json, String path, int indentation) {
+//    json.append("\"java.util.Map<").append(genericKeyType.getName()).append(", ").append(genericValueType.getName()).append("> is unsupported\"");
+
+    json.append("{\n");
+
+    indentation++;
+
+    for (Iterator<Object> it = object.entrySet().iterator(); it.hasNext();) {
+      Map.Entry e = (Map.Entry)it.next();
+
+      addIndentation(json, indentation);
+      Codec codec = codecRegistry.getCodec(e.getKey().getClass());
+      codec.marshal(e.getKey(), genericKeyType, json, path, indentation + 1);
+      json.append(": ");
+      codec = codecRegistry.getCodec(e.getValue().getClass());
+      codec.marshal(e.getValue(), genericValueType, json, path, indentation + 1);
+      if (it.hasNext()) {
+        json.append(",");
+      }
+      json.append("\n");
+
+    }
+
+    indentation--;
+
+    addIndentation(json, indentation);
+    json.append("}\n");
+
   }
 
   /**
    * @param jsr
    * @return
    */
-  public Map unmarshall(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public Map unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
     throw new UnsupportedOperationException("Not implemented");
   }
 }

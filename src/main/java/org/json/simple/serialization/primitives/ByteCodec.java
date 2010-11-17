@@ -22,11 +22,11 @@ package org.json.simple.serialization.primitives;
  */
 public class ByteCodec extends PrimitiveCodec<Byte> {
 
-  public String marshall(Byte attributeValue) {
+  public String marshal(Byte attributeValue) {
     return String.format("%02x", attributeValue);
   }
 
-  public Byte unmarshall(String hex) {
+  public Byte unmarshal(String hex) {
     return (byte) (
         (Character.digit(hex.charAt(0), 16) << 4) +
             Character.digit(hex.charAt(1), 16)

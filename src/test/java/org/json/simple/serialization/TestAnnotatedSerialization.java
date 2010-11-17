@@ -18,15 +18,15 @@ public class TestAnnotatedSerialization extends TestCase {
     foo.setABooleanNamedPublicInJSON(true);
     foo.setText("Bar");
 
-    String json = registry.getCodec(Foo.class).marshall(foo);
+    String json = registry.getCodec(Foo.class).marshal(foo);
 
     System.out.println(json);
 
-    Foo foo2 = registry.getCodec(Foo.class).unmarshall(json);
+    Foo foo2 = registry.getCodec(Foo.class).unmarshal(json);
 
     assertEquals(foo, foo2);
 
-    Foo foo3 = registry.getCodec(Foo.class).unmarshall("{\"text\" : \"Bar\", \"public\" : true}");
+    Foo foo3 = registry.getCodec(Foo.class).unmarshal("{\"text\" : \"Bar\", \"public\" : true}");
     assertEquals("Bar", foo3.getText());
     assertEquals(true, foo3.isABooleanNamedPublicInJSON());
     

@@ -24,11 +24,11 @@ import java.math.BigDecimal;
  */
 public class BigDecimalCodec extends PrimitiveCodec<BigDecimal> {
 
-  public String marshall(BigDecimal attributeValue) {
+  public String marshal(BigDecimal attributeValue) {
     return String.valueOf(attributeValue);
   }
 
-  public BigDecimal unmarshall(String stringValue) {
+  public BigDecimal unmarshal(String stringValue) {
     return new BigDecimal(stringValue);
   }
 }

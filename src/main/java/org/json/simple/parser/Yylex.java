@@ -587,7 +587,7 @@ int getPosition(){
           }
         case 28: break;
         case 23: 
-          { Boolean val=Boolean.valueOf(yytext()); return new Yytoken(Yytoken.TYPE_VALUE, val);
+          { Boolean val=Boolean.valueOf(yytext()); return new Yytoken(Yytoken.TYPE_VALUE, val, Yytoken.VALUE_TYPE_BOOLEAN);
           }
         case 29: break;
         case 22: 
@@ -595,7 +595,7 @@ int getPosition(){
           }
         case 30: break;
         case 13: 
-          { yybegin(YYINITIAL);return new Yytoken(Yytoken.TYPE_VALUE, sb.toString());
+          { yybegin(YYINITIAL);return new Yytoken(Yytoken.TYPE_VALUE, sb.toString(), Yytoken.VALUE_TYPE_STRING);
           }
         case 31: break;
         case 12: 
@@ -603,7 +603,7 @@ int getPosition(){
           }
         case 32: break;
         case 21: 
-          { Double val=Double.valueOf(yytext()); return new Yytoken(Yytoken.TYPE_VALUE, val);
+          { Double val=Double.valueOf(yytext()); return new Yytoken(Yytoken.TYPE_VALUE, val, Yytoken.VALUE_TYPE_DOUBLE);
           }
         case 33: break;
         case 1: 
@@ -657,7 +657,7 @@ int getPosition(){
           }
         case 44: break;
         case 2: 
-          { Long val=Long.valueOf(yytext()); return new Yytoken(Yytoken.TYPE_VALUE, val);
+          { Long val=Long.valueOf(yytext()); return new Yytoken(Yytoken.TYPE_VALUE, val, Yytoken.VALUE_TYPE_LONG);
           }
         case 45: break;
         case 18: 

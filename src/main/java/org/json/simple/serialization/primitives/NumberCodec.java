@@ -30,22 +30,22 @@ import java.io.PrintWriter;
 public class NumberCodec extends PrimitiveCodec<Number> {
 
 
-  public void marshall(Number object, Class definedType, PrintWriter json, String path, int indentation) {
-    json.append(marshall(object));    
+  public void marshal(Number object, Class definedType, PrintWriter json, String path, int indentation) {
+    json.append(marshal(object));
   }
 
   @Override
-  public Number unmarshall(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public Number unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
     jsr.next(); // value
     return jsr.getNumberValue();
   }
 
   @Override
-  public String marshall(Number attributeValue) {
+  public String marshal(Number attributeValue) {
     return String.valueOf(attributeValue);
   }
 
-  public Number unmarshall(String stringValue) {
+  public Number unmarshal(String stringValue) {
     return Double.valueOf(stringValue);
   }
 }

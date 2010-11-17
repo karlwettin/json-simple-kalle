@@ -46,27 +46,27 @@ public abstract class Codec<T> {
    * Output often same as String.valueOf(object);
    * This does not include JSON value syntax such as "", ["",""] and { ... }.
    * <p/>
-   * Used mostly to marshall primary key values, but all primitives also implement this method.
+   * Used mostly to marshal primary key values, but all primitives also implement this method.
    *
-   * @param object instance to be marshalled
-   * @return marshalled valued of parameter object
+   * @param object instance to be marshaled
+   * @return marshaled valued of parameter object
    * @throws UnsupportedOperationException if the generic type for this codec can not be serialized to a single primitive value.
    */
-  public String marshall(T object) throws UnsupportedOperationException {
+  public String marshal(T object) throws UnsupportedOperationException {
     throw new UnsupportedOperationException("Not implemented");
   }
 
   /**
-   * @see #marshall(Object)
+   * @see #marshal(Object)
    */
-  public T unmarshall(String stringValue) throws UnsupportedOperationException {
+  public T unmarshal(String stringValue) throws UnsupportedOperationException {
     throw new UnsupportedOperationException("Not implemented");
   }
 
-  public T unmarshall(Reader reader) throws ParseException, IOException {
+  public T unmarshal(Reader reader) throws ParseException, IOException {
     BufferedJSONStreamReader jsr = new BufferedJSONStreamReader(reader);
     jsr.expectNext(BufferedJSONStreamReader.Event.START_DOCUMENT);
-    T t = unmarshall(jsr);
+    T t = unmarshal(jsr);
     if (jsr.getEvent() != BufferedJSONStreamReader.Event.END_DOCUMENT) {
       jsr.expectNext(BufferedJSONStreamReader.Event.END_DOCUMENT);
     }
@@ -78,19 +78,19 @@ public abstract class Codec<T> {
    * Appends the JSON value for a given object to a StringBuffer.
    * Output should include JSON synxtax such as "", ["",""], { ... }, etc
    *
-   * @param object          object to be marshalled
+   * @param object          object to be marshaled
    * @param definedType
    * @param json            json string factory
    * @param path            current path in object graph from root
    * @param indentation
    */
-  public abstract void marshall(T object, Class definedType, PrintWriter json, String path, int indentation);
+  public abstract void marshal(T object, Class definedType, PrintWriter json, String path, int indentation);
 
   /**
    * @param jsr
    * @return
    */
-  public abstract T unmarshall(BufferedJSONStreamReader jsr) throws ParseException, IOException; // note for self: no Field here, raw object only.
+  public abstract T unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException; // note for self: no Field here, raw object only.
 
   private Map<Field, Method> getters = new HashMap<Field, Method>();
   private Map<Field, Method> setters = new HashMap<Field, Method>();
@@ -162,7 +162,7 @@ public abstract class Codec<T> {
   }
 
   /**
-   * Returns true if the field should not be marshalled to json. A list with size 0 for instance.
+   * Returns true if the field should not be marshaled to json. A list with size 0 for instance.
    *
    * @param value
    * @return

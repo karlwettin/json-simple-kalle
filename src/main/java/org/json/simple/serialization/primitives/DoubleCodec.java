@@ -30,7 +30,7 @@ public class DoubleCodec extends PrimitiveCodec<Double> {
 
   // todo nil, inv, -inv
 
-  public String marshall(Double attributeValue) {
+  public String marshal(Double attributeValue) {
     if (attributeValue == null) {
       return "\"null\"";
     } else if (Double.isNaN(attributeValue)) {
@@ -45,7 +45,7 @@ public class DoubleCodec extends PrimitiveCodec<Double> {
 
   }
 
-  public Double unmarshall(String stringValue) {
+  public Double unmarshal(String stringValue) {
     if ("null".equals(stringValue)) {
       return null;
     }
@@ -53,13 +53,13 @@ public class DoubleCodec extends PrimitiveCodec<Double> {
   }
 
   @Override
-  public Double unmarshall(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public Double unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
     jsr.next(); // value
     return jsr.getNumberValue().doubleValue();
   }
 
   @Override
-  public void marshall(Double object, Class definedType, PrintWriter json, String path, int indentation) {
-    json.append(marshall(object));
+  public void marshal(Double object, Class definedType, PrintWriter json, String path, int indentation) {
+    json.append(marshal(object));
   }
 }

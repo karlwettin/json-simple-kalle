@@ -22,11 +22,11 @@ package org.json.simple.serialization.primitives;
  */
 public class CharacterCodec extends PrimitiveCodec<Character> {
 
-  public String marshall(Character attributeValue) {
+  public String marshal(Character attributeValue) {
     return String.valueOf(attributeValue);
   }
 
-  public Character unmarshall(String stringValue) {
+  public Character unmarshal(String stringValue) {
     if (stringValue.length() != 1) {
       throw new RuntimeException("The input string was not 1 character long.");
     }

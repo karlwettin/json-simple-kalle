@@ -40,7 +40,7 @@ public class DateCodec extends PrimitiveCodec<Date> {
       = new ISO8601CanonicalDateFormat.ThreadLocalDateFormat(new ISO8601CanonicalDateFormat());
 
   @Override
-  public Date unmarshall(BufferedJSONStreamReader jsr) throws org.json.simple.parser.ParseException, IOException {
+  public Date unmarshal(BufferedJSONStreamReader jsr) throws org.json.simple.parser.ParseException, IOException {
 
     JSONStreamReader.Event event = jsr.next(); // value or start object
 
@@ -87,11 +87,11 @@ public class DateCodec extends PrimitiveCodec<Date> {
     }
   }
 
-  public String marshall(Date attributeValue) {
+  public String marshal(Date attributeValue) {
     return fmtThreadLocal.get().format(attributeValue);
   }
 
-  public Date unmarshall(String stringValue) {
+  public Date unmarshal(String stringValue) {
     try {
       return fmtThreadLocal.get().parse(stringValue);
     } catch (ParseException e) {

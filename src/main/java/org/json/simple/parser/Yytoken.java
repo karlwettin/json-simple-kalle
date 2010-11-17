@@ -19,7 +19,20 @@ public class Yytoken {
 	
 	public int type=0;
 	public Object value=null;
-	
+
+  public int valueType;
+
+  public static final int VALUE_TYPE_NULL = 0;
+  public static final int VALUE_TYPE_BOOLEAN = 1;
+  public static final int VALUE_TYPE_LONG = 2;
+  public static final int VALUE_TYPE_DOUBLE = 3;
+  public static final int VALUE_TYPE_STRING = 4;
+
+  public Yytoken(int type,Object value, int valueType){
+    this(type, value);
+    this.valueType = valueType;
+  }
+
 	public Yytoken(int type,Object value){
 		this.type=type;
 		this.value=value;

@@ -28,21 +28,21 @@ import java.io.PrintWriter;
  */
 public class ShortCodec extends PrimitiveCodec<Short> {
 
-  public void marshall(Short object, Class definedType, PrintWriter json, String path, int indentation) {
-    json.append(marshall(object));
+  public void marshal(Short object, Class definedType, PrintWriter json, String path, int indentation) {
+    json.append(marshal(object));
   }
 
-  public String marshall(Short attributeValue) {
+  public String marshal(Short attributeValue) {
     return String.valueOf(attributeValue);
   }
 
   @Override
-  public Short unmarshall(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public Short unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
     jsr.next();
     return jsr.getLongValue().shortValue();
   }
 
-  public Short unmarshall(String stringValue) {
+  public Short unmarshal(String stringValue) {
     return Short.valueOf(stringValue);
   }
 }
