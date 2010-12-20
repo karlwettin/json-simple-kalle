@@ -147,7 +147,7 @@ public class BeanCodec<T> extends Codec<T> {
       log.debug("Marshalling " + path + " " + bean.getClass().getName() + " defined as " + definedType.getName());
     }
 
-    json.append("{");
+    json.append("{\n");
 
     boolean needsComma = false;
 

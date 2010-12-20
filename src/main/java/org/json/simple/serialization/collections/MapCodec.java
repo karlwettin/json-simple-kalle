@@ -58,7 +58,7 @@ public class MapCodec extends Codec<Map> {
   public void marshal(Map object, Class definedType, PrintWriter json, String path, int indentation) {
 //    json.append("\"java.util.Map<").append(genericKeyType.getName()).append(", ").append(genericValueType.getName()).append("> is unsupported\"");
 
-    json.append("{\n");
+    json.append("[\n");
 
     indentation++;
 
@@ -66,22 +66,33 @@ public class MapCodec extends Codec<Map> {
       Map.Entry e = (Map.Entry)it.next();
 
       addIndentation(json, indentation);
+      json.append("[\n");
+      indentation++;
+      addIndentation(json, indentation);
       Codec codec = codecRegistry.getCodec(e.getKey().getClass());
       codec.marshal(e.getKey(), genericKeyType, json, path, indentation + 1);
-      json.append(": ");
+      json.append(",\n");
+
+      addIndentation(json, indentation);
       codec = codecRegistry.getCodec(e.getValue().getClass());
       codec.marshal(e.getValue(), genericValueType, json, path, indentation + 1);
+
+      json.append("\n");
+      indentation--;
+      addIndentation(json, indentation);
+      json.append("]");
       if (it.hasNext()) {
         json.append(",");
       }
       json.append("\n");
+
 
     }
 
     indentation--;
 
     addIndentation(json, indentation);
-    json.append("}\n");
+    json.append("]\n");
 
   }
 
