@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class TestMap extends TestCase {
 
-  public void test() {
+  public void test() throws Exception {
 
     Foo foo = new Foo();
     foo.getMap().put(1, "1ab");
