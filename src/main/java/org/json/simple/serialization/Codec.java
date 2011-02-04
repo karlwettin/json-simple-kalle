@@ -26,6 +26,7 @@ import java.io.Reader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -41,6 +42,12 @@ public abstract class Codec<T> {
   public static String classIdentifierFieldName = "_class";
 
 
+  public T getDefaultInstance() {
+    return null;
+  }
+
+
+
   /**
    * Returns the "primitive" string representation for a given value.
    * Output often same as String.valueOf(object);
@@ -52,18 +59,18 @@ public abstract class Codec<T> {
    * @return marshaled valued of parameter object
    * @throws UnsupportedOperationException if the generic type for this codec can not be serialized to a single primitive value.
    */
-  public String marshal(T object) throws UnsupportedOperationException {
+  public String marshal(T object) throws UnsupportedOperationException, IllegalAccessException, InstantiationException {
     throw new UnsupportedOperationException("Not implemented");
   }
 
   /**
    * @see #marshal(Object)
    */
-  public T unmarshal(String stringValue) throws UnsupportedOperationException {
+  public T unmarshal(String stringValue) throws UnsupportedOperationException, InstantiationException, IllegalAccessException {
     throw new UnsupportedOperationException("Not implemented");
   }
 
-  public T unmarshal(Reader reader) throws ParseException, IOException {
+  public T unmarshal(Reader reader) throws ParseException, IOException, IllegalAccessException, InstantiationException {
     BufferedJSONStreamReader jsr = new BufferedJSONStreamReader(reader);
     jsr.expectNext(BufferedJSONStreamReader.Event.START_DOCUMENT);
     T t = unmarshal(jsr);
@@ -84,13 +91,13 @@ public abstract class Codec<T> {
    * @param path            current path in object graph from root
    * @param indentation
    */
-  public abstract void marshal(T object, Class definedType, PrintWriter json, String path, int indentation);
+  public abstract void marshal(T object, Class definedType, PrintWriter json, String path, int indentation) throws IllegalAccessException, InstantiationException;
 
   /**
    * @param jsr
    * @return
    */
-  public abstract T unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException; // note for self: no Field here, raw object only.
+  public abstract T unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException, InstantiationException, IllegalAccessException; // note for self: no Field here, raw object only.
 
   private Map<Field, Method> getters = new HashMap<Field, Method>();
   private Map<Field, Method> setters = new HashMap<Field, Method>();

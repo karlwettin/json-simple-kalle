@@ -55,7 +55,7 @@ public class MapCodec extends Codec<Map> {
    * @param path
    * @param indentation
    */
-  public void marshal(Map object, Class definedType, PrintWriter json, String path, int indentation) {
+  public void marshal(Map object, Class definedType, PrintWriter json, String path, int indentation) throws InstantiationException, IllegalAccessException {
 //    json.append("\"java.util.Map<").append(genericKeyType.getName()).append(", ").append(genericValueType.getName()).append("> is unsupported\"");
 
     json.append("[\n");

@@ -56,9 +56,25 @@ public class BeanCodec<T> extends Codec<T> {
   private CodecRegistry codecRegistry;
   private Map<String, Field> fieldsByName = new LinkedHashMap<String, Field>();
 
-  public void resolve(CodecRegistry codecRegistry, Class<T> beanClass) {
+  private T defaultInstance;
+
+  public Object getDefaultValue(Field field) {
+    return get(defaultInstance, field);
+  }
+
+  public T getDefaultInstance() {
+    return defaultInstance;
+  }
+
+  public void resolve(CodecRegistry codecRegistry, Class<T> beanClass) throws IllegalAccessException, InstantiationException {
 
     log.info("Reflecting " + beanClass.getName());
+
+    if (!Modifier.isAbstract(beanClass.getModifiers())
+        && !Modifier.isInterface(beanClass.getModifiers())
+        && !beanClass.isEnum()) {
+      defaultInstance = beanClass.newInstance();
+    }
 
     this.beanClass = beanClass;
     this.codecRegistry = codecRegistry;
@@ -92,6 +108,17 @@ public class BeanCodec<T> extends Codec<T> {
 
 
     }
+
+    Set<Class> resolved = new HashSet<Class>();
+    if (resolved.add(getBeanClass())) {
+      for (Field f : getFieldsByName().values()) {
+        if (resolved.add(f.getType())) {
+          codecRegistry.getCodec(f.getType());
+        }
+      }
+    }
+
+
   }
 
   /**
@@ -106,7 +133,7 @@ public class BeanCodec<T> extends Codec<T> {
    * @throws UnsupportedOperationException if the generic type for this codec can not be serialized to a single primitive value.
    */
   @Override
-  public String marshal(T object) {
+  public String marshal(T object) throws IllegalAccessException, InstantiationException {
     StringWriter sw = new StringWriter(49152);
     PrintWriter pw = new PrintWriter(sw);
     marshal(object, object.getClass(), pw, "", 0);
@@ -115,7 +142,7 @@ public class BeanCodec<T> extends Codec<T> {
   }
 
 
-  public void marshal(T object, PrintWriter pw) {
+  public void marshal(T object, PrintWriter pw) throws InstantiationException, IllegalAccessException {
     marshal(object, object.getClass(), pw, "", 0);
   }
 
@@ -123,7 +150,7 @@ public class BeanCodec<T> extends Codec<T> {
    * @see #marshal(Object)
    */
   @Override
-  public T unmarshal(String stringValue) {
+  public T unmarshal(String stringValue) throws InstantiationException, IllegalAccessException {
     BufferedJSONStreamReader jsr = new BufferedJSONStreamReader(new StringReader(stringValue));
     try {
       jsr.next(); // START DOCUMENT
@@ -141,7 +168,7 @@ public class BeanCodec<T> extends Codec<T> {
    * @param path
    * @param indentation @return json representation
    */
-  public void marshal(T bean, Class definedType, PrintWriter json, String path, int indentation) {
+  public void marshal(T bean, Class definedType, PrintWriter json, String path, int indentation) throws IllegalAccessException, InstantiationException {
 
     if (log.isDebugEnabled()) {
       log.debug("Marshalling " + path + " " + bean.getClass().getName() + " defined as " + definedType.getName());
@@ -198,13 +225,13 @@ public class BeanCodec<T> extends Codec<T> {
 
   }
 
-  public T unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public T unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException, InstantiationException, IllegalAccessException {
     jsr.expectNext(JSONStreamReader.Event.START_OBJECT);
     return unmarshalBean(jsr);
   }
 
 
-  public T unmarshalBean(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public T unmarshalBean(BufferedJSONStreamReader jsr) throws ParseException, IOException, InstantiationException, IllegalAccessException {
 
     if (log.isDebugEnabled()) {
       log.debug("Unmarshalling " + beanClass.getName());
@@ -266,7 +293,7 @@ public class BeanCodec<T> extends Codec<T> {
           event = jsr.back(2);
           codec = codecRegistry.getCodec(field, null);
           if (log.isDebugEnabled()) {
-            log.debug("Aggregate bean did not contain top field named \""+ classIdentifierFieldName +"\".");
+            log.debug("Aggregate bean did not contain top field named \"" + classIdentifierFieldName + "\".");
           }
         }
       } else {
@@ -309,5 +336,12 @@ public class BeanCodec<T> extends Codec<T> {
 
   public Map<String, Field> getFieldsByName() {
     return fieldsByName;
+  }
+
+  @Override
+  public String toString() {
+    return "BeanCodec{" +
+        "beanClass=" + beanClass +
+        '}';
   }
 }

@@ -50,13 +50,31 @@ public class CodecRegistry {
     primitiveCodecs.put(java.lang.String.class, new StringCodec());
 
     primitiveCodecs.put(java.util.Date.class, new DateCodec());
+
+    primitiveCodecs.put(java.util.List.class, new CollectionCodec(this, Object.class) {
+      @Override
+      public Collection collectionFactory() {
+        return new ArrayList();
+      }
+    });
+
+    primitiveCodecs.put(java.util.Set.class, new CollectionCodec(this, Object.class) {
+      @Override
+      public Collection collectionFactory() {
+        return new HashSet();
+      }
+
+    });
+
   }
 
   private Map<Class, Codec> primitiveCodecs = new HashMap<Class, Codec>();
 
   private Map<Class, BeanCodec> beanCodecs = new HashMap<Class, BeanCodec>();
 
-  public <T> Codec<T> getCodec(Class<T> type) {
+  public <T> Codec<T> getCodec(Class<T> type) throws InstantiationException, IllegalAccessException {
+
+
     Codec codec = primitiveCodecs.get(type);
     if (codec != null) {
       return codec;
@@ -64,6 +82,10 @@ public class CodecRegistry {
     codec = beanCodecs.get(type);
     if (codec != null) {
       return codec;
+    }
+
+    if (type.isEnum()) {
+      return (Codec<T>)new EnumCodec((Class<Enum>)type);
     }
 
     BeanCodec beanCodec = new BeanCodec();
@@ -80,7 +102,7 @@ public class CodecRegistry {
    * @param instance if not null the classtype of this instance will be choosed over the class type of the field.  
    * @return
    */
-  public Codec getCodec(Field field, Object instance) {
+  public Codec getCodec(Field field, Object instance) throws IllegalAccessException, InstantiationException {
     if (field.getType().isArray()) {
       Class genericType = field.getType().getComponentType();
       if (genericType.isPrimitive()) {

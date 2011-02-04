@@ -57,7 +57,7 @@ public abstract class CollectionCodec extends Codec<Collection> {
    * @param path
    * @param indentation
    */
-  public void marshal(Collection object, Class definedType, PrintWriter json, String path, int indentation) {
+  public void marshal(Collection object, Class definedType, PrintWriter json, String path, int indentation) throws InstantiationException, IllegalAccessException {
     json.append("\n");
     addIndentation(json, indentation);
     json.append("[");
@@ -80,11 +80,16 @@ public abstract class CollectionCodec extends Codec<Collection> {
 
   public abstract Collection collectionFactory();
 
+  @Override
+  public Collection getDefaultInstance() {
+    return collectionFactory();
+  }
+
   /**
    * @param jsr root object to be unmarshaled
    * @return
    */
-  public Collection unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
+  public Collection unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException, InstantiationException, IllegalAccessException {
     Collection list = collectionFactory();
 
     JSONStreamReader.Event event = jsr.next();

@@ -31,11 +31,11 @@ import java.io.PrintWriter;
  */
 public class ArrayCodec extends Codec<Object[]> {
 
-  private Class genericType;
+  private Class primitiveGenericType;
   private CodecRegistry codecRegistry;
 
   public ArrayCodec(CodecRegistry codecRegistry, Class genericType) {
-    this.genericType = genericType;
+    this.primitiveGenericType = genericType;
     this.codecRegistry = codecRegistry;
   }
 
@@ -51,7 +51,7 @@ public class ArrayCodec extends Codec<Object[]> {
    * @param indentation
    */
   public void marshal(Object[] object, Class definedType, PrintWriter json, String path, int indentation) {
-    throw new UnsupportedOperationException("Array of type \"" + genericType.getName() + "[] is unsupported\"");
+    throw new UnsupportedOperationException("Array of type \"" + primitiveGenericType.getName() + "[] is unsupported\"");
 
   }
 
@@ -61,5 +61,9 @@ public class ArrayCodec extends Codec<Object[]> {
    */
   public Object[] unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
     throw new UnsupportedOperationException("Not implemented");
+  }
+
+  public Class getPrimitiveGenericType() {
+    return primitiveGenericType;
   }
 }

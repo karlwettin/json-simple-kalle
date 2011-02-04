@@ -31,14 +31,14 @@ import java.io.PrintWriter;
  */
 public class PrimitiveArrayCodec extends Codec<Object> {
 
-  private Class genericType;
+  private Class primitiveGenericType;
   private CodecRegistry codecRegistry;
 
-  public PrimitiveArrayCodec(CodecRegistry codecRegistry, Class genericType) {
-    if (!genericType.isPrimitive()) {
-      throw new RuntimeException(genericType.getName() + " is not a primitive!");
+  public PrimitiveArrayCodec(CodecRegistry codecRegistry, Class primitiveGenericType) {
+    if (!primitiveGenericType.isPrimitive()) {
+      throw new RuntimeException(primitiveGenericType.getName() + " is not a primitive!");
     }
-    this.genericType = genericType;
+    this.primitiveGenericType = primitiveGenericType;
     this.codecRegistry = codecRegistry;
   }
 
@@ -54,7 +54,7 @@ public class PrimitiveArrayCodec extends Codec<Object> {
    * @param indentation
    */
   public void marshal(Object object, Class definedType, PrintWriter json, String path, int indentation) {
-    throw new UnsupportedOperationException("Primitive array of type \"" + genericType.getName() + "[] is unsupported\"");
+    throw new UnsupportedOperationException("Primitive array of type \"" + primitiveGenericType.getName() + "[] is unsupported\"");
 
   }
 
@@ -64,5 +64,9 @@ public class PrimitiveArrayCodec extends Codec<Object> {
    */
   public Object[] unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException {
     throw new UnsupportedOperationException("Not implemented");
+  }
+
+  public Class getPrimitiveGenericType() {
+    return primitiveGenericType;
   }
 }
