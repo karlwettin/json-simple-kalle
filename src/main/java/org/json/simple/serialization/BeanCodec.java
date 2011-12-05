@@ -251,8 +251,6 @@ public class BeanCodec<T> extends Codec<T> {
     Codec codec = null;
     while ((event = jsr.next()) == JSONStreamReader.Event.START_ELEMENT_KEY) {
 
-      // todo copy to tupplur
-
       String fieldName = jsr.getStringValue();
       Field field = fieldsByName.get(fieldName);
 
@@ -262,8 +260,12 @@ public class BeanCodec<T> extends Codec<T> {
 
       if (field == null && classIdentifierFieldName.equals(jsr.getStringValue())) {
         jsr.next();
-        if (!beanClass.getName().equals(jsr.getStringValue())) {
-          throw new RuntimeException("beanClass and JSON class does not match! " + beanClass.getName() + " vs. " + jsr.getStringValue());
+        try {
+          if (!beanClass.equals(codecRegistry.getClassResolver().resolve(jsr.getStringValue()))) {
+            throw new RuntimeException("beanClass and JSON class does not match! " + beanClass.getName() + " vs. " + jsr.getStringValue());
+          }
+        } catch (ClassNotFoundException e) {
+          throw new RuntimeException(e);
         }
         event = jsr.next();
         if (event != JSONStreamReader.Event.NEXT_VALUE) {
