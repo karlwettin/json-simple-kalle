@@ -226,8 +226,20 @@ public class BeanCodec<T> extends Codec<T> {
   }
 
   public T unmarshal(BufferedJSONStreamReader jsr) throws ParseException, IOException, InstantiationException, IllegalAccessException {
-    jsr.expectNext(JSONStreamReader.Event.START_OBJECT);
-    return unmarshalBean(jsr);
+
+    JSONStreamReader.Event next = jsr.next();
+    if (next == JSONStreamReader.Event.START_ELEMENT_VALUE) {
+      if (jsr.getObjectValue() == null) {
+        return null;
+      } else {
+        throw new IOException("Expected START_OBJECT or START_ELEMENT_VALUE set to null but got START_ELEMENT_VALUE set to " + jsr.getStringValue());
+      }
+    } else if (next == JSONStreamReader.Event.START_OBJECT) {
+      return unmarshalBean(jsr);
+    } else {
+      throw new IOException("Expected START_OBJECT or START_ELEMENT_VALUE set to null but got event " + next);
+    }
+
   }
 
 
