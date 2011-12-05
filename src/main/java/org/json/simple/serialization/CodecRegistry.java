@@ -14,15 +14,17 @@ import org.json.simple.serialization.collections.ArrayCodec;
 import org.json.simple.serialization.collections.MapCodec;
 
 /**
- * For performance reasons you should only have one instance of this class available.
- * Make it singleton or what not.
- *
  * @author kalle@apache.org
  * @since 2009-jul-29 21:18:08
  */
 public class CodecRegistry {
 
+  private ClassResolver classResolver = new ClassResolver();
+  private Map<Class, Codec> primitiveCodecs = new HashMap<Class, Codec>();
+  private Map<Class, BeanCodec> beanCodecs = new HashMap<Class, BeanCodec>();
+
   public CodecRegistry() {
+
     primitiveCodecs.put(boolean.class, new BooleanCodec());
     primitiveCodecs.put(byte.class, new ByteCodec());
     primitiveCodecs.put(short.class, new ShortCodec());
@@ -67,10 +69,6 @@ public class CodecRegistry {
     });
 
   }
-
-  private Map<Class, Codec> primitiveCodecs = new HashMap<Class, Codec>();
-
-  private Map<Class, BeanCodec> beanCodecs = new HashMap<Class, BeanCodec>();
 
   public <T> Codec<T> getCodec(Class<T> type) throws InstantiationException, IllegalAccessException {
 
@@ -195,5 +193,11 @@ public class CodecRegistry {
     return beanCodecs;
   }
 
+  public ClassResolver getClassResolver() {
+    return classResolver;
+  }
 
+  public void setClassResolver(ClassResolver classResolver) {
+    this.classResolver = classResolver;
+  }
 }

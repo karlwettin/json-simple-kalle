@@ -284,7 +284,7 @@ public class BeanCodec<T> extends Codec<T> {
         if (classIdentifierFieldName.equals(aggregateBeanField)) {
           event = jsr.next();
           try {
-            codec = codecRegistry.getCodec(Class.forName(jsr.getStringValue()));
+            codec = codecRegistry.getCodec(codecRegistry.getClassResolver().resolve(jsr.getStringValue()));
             jsr.back(3);
           } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);

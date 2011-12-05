@@ -119,7 +119,7 @@ public abstract class CollectionCodec extends Codec<Collection> {
         if (classIdentifierFieldName.equals(jsr.getStringValue())) {
           event = jsr.next(); // value
           try {
-            field_class = Class.forName(jsr.getStringValue());
+            field_class = codecRegistry.getClassResolver().resolve(jsr.getStringValue());
           } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
           }
