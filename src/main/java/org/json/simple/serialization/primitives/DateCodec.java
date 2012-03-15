@@ -44,7 +44,7 @@ public class DateCodec extends PrimitiveCodec<Date> {
 
     JSONStreamReader.Event event = jsr.next(); // value or start object
 
-  if (event == JSONStreamReader.Event.START_OBJECT) {
+    if (event == JSONStreamReader.Event.START_OBJECT) {
 
       Date date = null;
       while ((event = jsr.next()) != JSONStreamReader.Event.END_OBJECT) {
@@ -76,12 +76,18 @@ public class DateCodec extends PrimitiveCodec<Date> {
       return date;
 
     } else if (event == JSONStreamReader.Event.START_ELEMENT_VALUE) {
-      // just a string, try parse it
-      try {
-        return fmtThreadLocal.get().parse(jsr.getStringValue());
-      } catch (ParseException e) {
-        throw new IOException("Expected date to be in ISO8601!", e);
+
+      Object object = jsr.getObjectValue();
+      if (object instanceof Number) {
+        return new Date(((Number) object).longValue());
+      } else {
+        try {
+          return fmtThreadLocal.get().parse(jsr.getStringValue());
+        } catch (ParseException e) {
+          throw new IOException("Expected date to be in ISO8601!", e);
+        }
       }
+
     } else {
       throw new RuntimeException();
     }
