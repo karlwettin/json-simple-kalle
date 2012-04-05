@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>json-simple</groupId>
   <artifactId>json-simple</artifactId>
-  <version>1.1-kalle-8</version>
+  <version>1.1-kalle-9</version>
 
   <name>json-simple</name>
   <description>JSON tools</description>
