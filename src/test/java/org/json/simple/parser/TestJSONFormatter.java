@@ -17,6 +17,7 @@ public class TestJSONFormatter extends TestCase {
     String semiWellFormatted = "{\n" +
         "  \"boolean\" : false,\n" +
         "  \"long\" : 1,\n" +
+        "  \"null\" : null,\n" +
         "  \"string\" : \"räksmörgås\",\n" +
         "  \"array\" : [\n" +
         "    {\n" +
@@ -37,6 +38,7 @@ public class TestJSONFormatter extends TestCase {
     String expected = "{\n" +
         "  \"boolean\" : false,\n" +
         "  \"long\" : 1,\n" +
+        "  \"null\" : null,\n" +
         "  \"string\" : \"räksmörgås\",\n" +
         "  \"array\" : [\n" +
         "    {\n" +

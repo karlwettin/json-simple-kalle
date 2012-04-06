@@ -102,7 +102,10 @@ public class JSONFormatter {
         output.write(" : ");
 
       } else if (event == JSONStreamReader.Event.START_ELEMENT_VALUE) {
-        if (Boolean.class.equals(input.getObjectValue().getClass())) {
+        if (input.getObjectValue() == null) {
+          output.write("null");
+
+        } else if (Boolean.class.equals(input.getObjectValue().getClass())) {
           output.write(String.valueOf(input.getBooleanValue()));
 
         } else if (String.class.equals(input.getObjectValue().getClass())) {
