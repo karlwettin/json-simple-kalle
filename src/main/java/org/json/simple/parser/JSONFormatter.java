@@ -102,6 +102,14 @@ public class JSONFormatter {
         output.write(" : ");
 
       } else if (event == JSONStreamReader.Event.START_ELEMENT_VALUE) {
+
+        JSONStreamReader.Event previous = input.back();
+        if (previous == JSONStreamReader.Event.START_ARRAY
+            || previous == JSONStreamReader.Event.NEXT_VALUE) {
+          addIndentation(output, indentation);
+        }
+        input.next(); // reset
+
         if (input.getObjectValue() == null) {
           output.write("null");
 
