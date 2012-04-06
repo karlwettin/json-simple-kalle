@@ -1,15 +1,16 @@
-Please visit:
-http://code.google.com/p/json-simple/
+This is a fork of json-simple, a Java JSON library.
+That project is located at <http://code.google.com/p/json-simple/>.
 
-This is an extention of json-simple. 
-It contains JSONStreamReader and Java bean serialization tools.
-Is also using Maven rather than Ant.
+This version also contains JSONStreamReader, BufferedJSONStreamReader, JSONFormatter and Java bean serialization tools.
+
+Is uses Maven rather than Ant.
 
 JSONStreamReader is rather simple to use, just an extention on the JSON lexer,
 and rather similar to XMLStreamReader. Also see BufferedJSONStreamReader.
-For examples see BeanCodec that is built using above.
 
-Caveat emptor:
+JSONFormatter does what you think using the stream reader.
+
+So does the BeanCodec. Caveat emptor:
 
   * Does NOT (yet) support arrays (nor matrices of arrays). Workaround, use some sort of Collection.
   * Does NOT (yet) support Map. Not even sure how this should be mapped to JSON.
