@@ -1,4 +1,4 @@
-This is a fork of json-simple, a Java JSON library.
+This is a fork of the Java JSON API json-simple version 1.1.
 That project is located at <http://code.google.com/p/json-simple/>.
 
 This version also contains JSONStreamReader, BufferedJSONStreamReader, JSONFormatter and Java bean serialization tools.

@@ -132,7 +132,7 @@ public class JSONFormatter {
 
   }
 
-  private void addIndentation(Writer output, int indentation) throws IOException {
+  public void addIndentation(Writer output, int indentation) throws IOException {
     for (int i = 0; i < indentation; i++) {
       output.append("  ");
     }
