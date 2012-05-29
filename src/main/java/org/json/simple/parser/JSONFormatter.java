@@ -11,6 +11,10 @@ import java.text.DecimalFormat;
  */
 public class JSONFormatter {
 
+  public static void main(String[] args) throws Exception {
+    System.out.println(new JSONFormatter().format("{\"float\":1.23456789012345678901234567890}"));
+  }
+
   public String format(String input) throws Exception {
     StringWriter buffer = new StringWriter((int) (input.length() * 1.1));
     format(new StringReader(input), buffer);
@@ -18,8 +22,6 @@ public class JSONFormatter {
   }
 
   public void format(Reader inputReader, Writer output) throws Exception {
-
-    DecimalFormat df = new DecimalFormat("#.0");
 
     BufferedJSONStreamReader input = new BufferedJSONStreamReader(inputReader);
 
@@ -122,9 +124,9 @@ public class JSONFormatter {
           output.write('"');
 
         } else if (Double.class.equals(input.getObjectValue().getClass())) {
-          output.write(df.format(input.getDoubleValue()));
+          output.write(input.getDoubleValue().toString());
         } else if (Long.class.equals(input.getObjectValue().getClass())) {
-          output.write(String.valueOf(input.getLongValue()));
+          output.write(input.getLongValue().toString());
         } else {
           throw new RuntimeException("Unsupported class: " + input.getObjectValue().getClass());
         }
