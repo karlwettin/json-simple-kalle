@@ -163,7 +163,7 @@ public class JSONFormatter {
 
   public void addIndentation(Writer output, int indentation) throws IOException {
     for (int i = 0; i < indentation; i++) {
-      output.append(indentationValue);
+      output.append(getIndentationValue());
     }
   }
 
