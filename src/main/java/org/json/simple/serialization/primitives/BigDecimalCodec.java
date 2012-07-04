@@ -19,7 +19,7 @@ package org.json.simple.serialization.primitives;
 import java.math.BigDecimal;
 
 /**
- * @author kalle@apache.org
+ * @author kalle
  * @since 2009-jul-03 03:20:06
  */
 public class BigDecimalCodec extends PrimitiveCodec<BigDecimal> {

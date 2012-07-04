@@ -17,7 +17,7 @@ package org.json.simple.serialization.primitives;
  */
 
 /**
- * @author kalle@apache.org
+ * @author kalle
  * @since 2009-jul-03 03:35:05
  */
 public class CharacterCodec extends PrimitiveCodec<Character> {

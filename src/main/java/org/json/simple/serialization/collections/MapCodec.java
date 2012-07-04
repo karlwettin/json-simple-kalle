@@ -28,7 +28,7 @@ import java.util.Map;
 
 
 /**
- * @author kalle@apache.org
+ * @author kalle
  * @since 2009-jul-03 06:24:52
  */
 public class MapCodec extends Codec<Map> {

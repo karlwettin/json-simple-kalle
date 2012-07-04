@@ -24,7 +24,7 @@ import java.io.PrintWriter;
 */
 
 /**
- * @author kalle@apache.org
+ * @author kalle
  * @since 2009-jul-03 03:18:01
  */
 public class NumberCodec extends PrimitiveCodec<Number> {

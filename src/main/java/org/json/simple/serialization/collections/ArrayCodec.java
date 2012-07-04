@@ -26,7 +26,7 @@ import java.io.PrintWriter;
 
 
 /**
- * @author kalle@apache.org
+ * @author kalle
  * @since 2009-jul-03 06:17:10
  */
 public class ArrayCodec extends Codec<Object[]> {

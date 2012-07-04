@@ -19,7 +19,7 @@ package org.json.simple.serialization.primitives;
 import java.math.BigInteger;
 
 /**
- * @author kalle@apache.org
+ * @author kalle
  * @since 2009-jul-03 03:18:50
  */
 public class BigIntegerCodec extends PrimitiveCodec<BigInteger> {

@@ -1,20 +1,4 @@
 package org.json.simple.parser;
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 import java.io.IOException;
 import java.io.Reader;
@@ -26,7 +10,7 @@ import java.util.*;
  * <p/>
  * Based on the code of {@link org.json.simple.parser.JSONParser}
  *
- * @author kalle@apache.org
+ * @author kalle
  * @since 2009-jul-05 07:08:51
  */
 public class JSONStreamReader {
@@ -39,7 +23,6 @@ public class JSONStreamReader {
     lexer.yyreset(json);
     status = S_INIT;
     statusStack = new LinkedList();
-//    valueStack = new LinkedList();
   }
 
   public static final int S_INIT = 0;
@@ -68,11 +51,10 @@ public class JSONStreamReader {
     return lexer.getPosition();
   }
 
-  // todo get rid of these stacks!!! they consume heap without being used!
-  // todo perhaps they can be replaced with a single integer?
+  // todo get rid of this stack, it consume heap without being used!
+  // todo perhaps it can be replaced with a single integer counting up and down?
 
   private LinkedList statusStack;
-//  private LinkedList valueStack;
 
   private Yytoken token;
 
@@ -148,19 +130,16 @@ public class JSONStreamReader {
           case Yytoken.TYPE_VALUE:
             status = S_IN_FINISHED_VALUE;
             statusStack.addFirst(new Integer(status));
-//            valueStack.addFirst(token.value);
             return Event.START_ELEMENT_VALUE;
 
           case Yytoken.TYPE_LEFT_BRACE:
             status = S_IN_OBJECT;
             statusStack.addFirst(new Integer(status));
-//            valueStack.addFirst(new HashMap());
             return Event.START_OBJECT;
 
           case Yytoken.TYPE_LEFT_SQUARE:
             status = S_IN_ARRAY;
             statusStack.addFirst(new Integer(status));
-//            valueStack.addFirst(new ArrayList());
             return Event.START_ARRAY;
 
           default:
@@ -170,7 +149,6 @@ public class JSONStreamReader {
 
       case S_IN_FINISHED_VALUE:
         if (token.type == Yytoken.TYPE_EOF) {
-//          valueStack.removeFirst();
           return Event.END_ELEMENT_VALUE;
         } else {
           throw new ParseException(getPosition(), ParseException.ERROR_UNEXPECTED_TOKEN, token);
@@ -183,8 +161,6 @@ public class JSONStreamReader {
 
           case Yytoken.TYPE_VALUE:
             if (token.value instanceof String) {
-              String key = (String) token.value;
-//              valueStack.addFirst(key);
               status = S_PASSED_PAIR_KEY;
               statusStack.addFirst(new Integer(status));
               return Event.START_ELEMENT_KEY;
@@ -196,7 +172,6 @@ public class JSONStreamReader {
           case Yytoken.TYPE_RIGHT_BRACE:
             if (statusStack.size() > 1) {
               statusStack.removeFirst();
-//              valueStack.removeFirst();
               status = peekStatus(statusStack);
             } else {
               status = S_IN_FINISHED_VALUE;
@@ -215,32 +190,19 @@ public class JSONStreamReader {
 
           case Yytoken.TYPE_VALUE:
             statusStack.removeFirst();
-//            String key = (String) valueStack.removeFirst();
-//            Map parent = (Map) valueStack.getFirst();
-//            parent.put(key, token.value);
             status = peekStatus(statusStack);
             return Event.START_ELEMENT_VALUE;
 
           case Yytoken.TYPE_LEFT_SQUARE:
             statusStack.removeFirst();
-//            key = (String) valueStack.removeFirst();
-//            parent = (Map) valueStack.getFirst();
-//            List newArray = new ArrayList();
-//            parent.put(key, newArray);
             status = S_IN_ARRAY;
             statusStack.addFirst(new Integer(status));
-//            valueStack.addFirst(newArray);
             return Event.START_ARRAY;
 
           case Yytoken.TYPE_LEFT_BRACE:
             statusStack.removeFirst();
-//            key = (String) valueStack.removeFirst();
-//            parent = (Map) valueStack.getFirst();
-//            Map newObject = new HashMap();
-//            parent.put(key, newObject);
             status = S_IN_OBJECT;
             statusStack.addFirst(new Integer(status));
-//            valueStack.addFirst(newObject);
             return Event.START_OBJECT;
 
           default:
@@ -254,14 +216,11 @@ public class JSONStreamReader {
             return Event.NEXT_VALUE;
 
           case Yytoken.TYPE_VALUE:
-//            List val = (List) valueStack.getFirst();
-//            val.add(token.value);
             return Event.START_ELEMENT_VALUE;
 
           case Yytoken.TYPE_RIGHT_SQUARE:
             if (statusStack.size() > 1) {
               statusStack.removeFirst();
-//              valueStack.removeFirst();
               status = peekStatus(statusStack);
             } else {
               status = S_IN_FINISHED_VALUE;
@@ -269,21 +228,13 @@ public class JSONStreamReader {
             return Event.END_ARRAY;
 
           case Yytoken.TYPE_LEFT_BRACE:
-//            val = (List) valueStack.getFirst();
-//            Map newObject = new HashMap();
-//            val.add(newObject);
             status = S_IN_OBJECT;
             statusStack.addFirst(new Integer(status));
-//            valueStack.addFirst(newObject);
             return Event.START_OBJECT;
 
           case Yytoken.TYPE_LEFT_SQUARE:
-//            val = (List) valueStack.getFirst();
-//            List newArray = new ArrayList();
-//            val.add(newArray);
             status = S_IN_ARRAY;
             statusStack.addFirst(new Integer(status));
-//            valueStack.addFirst(newArray);
             return Event.START_ARRAY;
 
           default:
@@ -302,7 +253,6 @@ public class JSONStreamReader {
   /**
    * This class is the return value of {@link org.json.simple.parser.JSONStreamReader#next()}.
    * <p/>
-   * Java 1.3 compatible enumeration for backwards compatibility.
    *
    * @author kalle
    * @since 2009-jul-05 14:01:27

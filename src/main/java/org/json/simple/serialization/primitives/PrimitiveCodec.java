@@ -27,7 +27,7 @@ import java.io.PrintWriter;
 /**
  * A primitive codec can mashall a single value to a single string and vice verse.
  *
- * @author kalle@apache.org
+ * @author kalle
  * @since 2009-jul-03 14:32:49
  */
 public abstract class PrimitiveCodec<T> extends Codec<T> {

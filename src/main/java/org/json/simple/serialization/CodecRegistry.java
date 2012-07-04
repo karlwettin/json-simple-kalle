@@ -14,7 +14,7 @@ import org.json.simple.serialization.collections.ArrayCodec;
 import org.json.simple.serialization.collections.MapCodec;
 
 /**
- * @author kalle@apache.org
+ * @author kalle
  * @since 2009-jul-29 21:18:08
  */
 public class CodecRegistry {
