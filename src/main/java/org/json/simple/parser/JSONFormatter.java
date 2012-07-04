@@ -3,7 +3,6 @@ package org.json.simple.parser;
 import org.json.simple.JSONObject;
 
 import java.io.*;
-import java.text.DecimalFormat;
 
 /**
  * @author kalle
@@ -11,14 +10,31 @@ import java.text.DecimalFormat;
  */
 public class JSONFormatter {
 
-  public static void main(String[] args) throws Exception {
-    System.out.println(new JSONFormatter().format("{\"float\":1.23456789012345678901234567890}"));
-  }
-
   public String format(String input) throws Exception {
     StringWriter buffer = new StringWriter((int) (input.length() * 1.1));
     format(new StringReader(input), buffer);
     return buffer.toString();
+  }
+
+  public JSONFormatter() {
+  }
+
+  public JSONFormatter(String indentationValue) {
+    this.indentationValue = indentationValue;
+  }
+
+  /**
+   * Two spaces
+   */
+  public static String DEFAULT_INDENTATION_VALUE = "  ";
+  private String indentationValue = DEFAULT_INDENTATION_VALUE;
+
+  public String getIndentationValue() {
+    return indentationValue;
+  }
+
+  public void setIndentationValue(String indentationValue) {
+    this.indentationValue = indentationValue;
   }
 
   public void format(Reader inputReader, Writer output) throws Exception {
@@ -147,7 +163,7 @@ public class JSONFormatter {
 
   public void addIndentation(Writer output, int indentation) throws IOException {
     for (int i = 0; i < indentation; i++) {
-      output.append("  ");
+      output.append(indentationValue);
     }
   }
 

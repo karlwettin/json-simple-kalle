@@ -68,7 +68,7 @@ public class JSONStreamReader {
     return lexer.getPosition();
   }
 
-  // todo get ridth of these stacks!!! they consume heap without beeing used!
+  // todo get rid of these stacks!!! they consume heap without being used!
   // todo perhaps they can be replaced with a single integer?
 
   private LinkedList statusStack;
