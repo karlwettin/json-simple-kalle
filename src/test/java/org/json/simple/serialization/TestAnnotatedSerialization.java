@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2010-okt-06 09:16:45
  */
 public class TestAnnotatedSerialization extends TestCase {

@@ -26,7 +26,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @see org.json.simple.serialization.ISO8601CanonicalDateFormat
  * @since 2009-jul-03 03:20:39
  */

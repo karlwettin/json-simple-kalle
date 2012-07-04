@@ -17,7 +17,7 @@ package org.json.simple.serialization.primitives;
 * limitations under the License.
 */
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2009-jul-03 05:41:53
  */
 public class ByteCodec extends PrimitiveCodec<Byte> {

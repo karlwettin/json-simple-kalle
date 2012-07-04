@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2011-02-04 01.12
  */
 public class EnumCodec extends Codec<Enum> {

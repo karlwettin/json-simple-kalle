@@ -15,7 +15,7 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2011-02-03 22.31
  */
 public class JavascriptCompiler {

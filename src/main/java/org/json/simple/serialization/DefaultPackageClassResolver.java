@@ -1,7 +1,7 @@
 package org.json.simple.serialization;
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2011-12-05 08:19
  */
 public class DefaultPackageClassResolver extends ClassResolver {

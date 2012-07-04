@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 * limitations under the License.
 */
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2009-jul-03 03:16:23
  */
 public class BooleanCodec extends PrimitiveCodec<Boolean> {

@@ -10,7 +10,7 @@ import java.util.*;
  * <p/>
  * Based on the code of {@link org.json.simple.parser.JSONParser}
  *
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2009-jul-05 07:08:51
  */
 public class JSONStreamReader {
@@ -254,7 +254,7 @@ public class JSONStreamReader {
    * This class is the return value of {@link org.json.simple.parser.JSONStreamReader#next()}.
    * <p/>
    *
-   * @author kalle
+   * @author karl.wettin@kodapan.se
    * @since 2009-jul-05 14:01:27
    */
   public static final class Event {

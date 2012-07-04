@@ -30,7 +30,7 @@ import java.util.Iterator;
 
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2009-jul-03 06:23:04
  */
 public abstract class CollectionCodec extends Codec<Collection> {

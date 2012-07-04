@@ -4,7 +4,7 @@ package org.json.simple.serialization;
  * used by beancodec to find class from a string.
  * perhaps you want a default package or something.
  *
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2011-12-05 07:54
  */
 public class ClassResolver {

@@ -22,7 +22,7 @@ import java.net.URLDecoder;
 * limitations under the License.
 */
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2009-jul-03 03:15:32
  */
 public class StringCodec extends PrimitiveCodec<String> {

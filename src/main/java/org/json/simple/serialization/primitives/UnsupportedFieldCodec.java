@@ -17,7 +17,7 @@ package org.json.simple.serialization.primitives;
 * limitations under the License.
 */
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2009-jul-03 03:09:05
  */
 public class UnsupportedFieldCodec extends PrimitiveCodec {

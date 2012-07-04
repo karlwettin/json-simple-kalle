@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 /**
  * A subclass of {@link org.json.simple.parser.JSONStreamReader} that allows for moving the cursor backwards.
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2009-jul-07 04:51:48
  */
 public class BufferedJSONStreamReader extends JSONStreamReader {

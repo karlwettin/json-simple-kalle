@@ -5,7 +5,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2012-04-06 01:18
  */
 public class TestJSONFormatter extends TestCase {

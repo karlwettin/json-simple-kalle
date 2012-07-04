@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Date;
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2009-jul-29 21:37:52
  */
 public class TestSerialization extends TestCase {

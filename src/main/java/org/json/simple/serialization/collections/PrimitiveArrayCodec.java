@@ -26,7 +26,7 @@ import java.io.PrintWriter;
 
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2009-jul-03 06:17:10
  */
 public class PrimitiveArrayCodec extends Codec<Object> {

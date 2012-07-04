@@ -8,7 +8,7 @@ import java.io.StringReader;
 import java.util.Date;
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2010-feb-02 19:14:08
  */
 public class TestDateCodec extends TestCase {

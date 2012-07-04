@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2011-02-03 22.31
  */
 public class TestJavascriptCompiler extends TestCase {

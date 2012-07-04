@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2010-nov-17 21:39:47
  */
 public class TestMap extends TestCase {

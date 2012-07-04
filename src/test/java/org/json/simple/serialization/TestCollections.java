@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2010-okt-06 14:40:44
  */
 public class TestCollections extends TestCase {

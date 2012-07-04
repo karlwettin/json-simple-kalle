@@ -33,7 +33,7 @@ import java.util.*;
 
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2009-jul-03 08:20:47
  */
 public class BeanCodec<T> extends Codec<T> {

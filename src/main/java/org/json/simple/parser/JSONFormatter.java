@@ -5,7 +5,7 @@ import org.json.simple.JSONObject;
 import java.io.*;
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2012-04-06 00:55
  */
 public class JSONFormatter {

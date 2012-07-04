@@ -33,7 +33,7 @@ import java.util.Set;
 
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2009-jul-03 14:39:23
  */
 public abstract class Codec<T> {

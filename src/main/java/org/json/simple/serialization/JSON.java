@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2010-sep-27 21:29:31
  */
 @Retention(RetentionPolicy.RUNTIME)

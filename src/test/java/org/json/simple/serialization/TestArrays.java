@@ -5,7 +5,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2010-okt-06 10:03:57
  */
 public class TestArrays extends TestCase {

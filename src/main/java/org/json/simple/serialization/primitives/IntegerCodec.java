@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 * limitations under the License.
 */
 /**
- * @author kalle
+ * @author karl.wettin@kodapan.se
  * @since 2009-jul-03 03:18:01
  */
 public class IntegerCodec extends PrimitiveCodec<Integer> {
