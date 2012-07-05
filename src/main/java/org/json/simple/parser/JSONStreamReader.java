@@ -37,6 +37,8 @@ public class JSONStreamReader {
   private Yylex lexer = new Yylex((Reader) null);
   private int status = S_INIT;
 
+  private boolean exhausted = false;
+
   private int peekStatus(LinkedList statusStack) {
     if (statusStack.size() == 0)
       return -1;
@@ -111,8 +113,13 @@ public class JSONStreamReader {
     return dnext();
   }
 
-
+  /** allows for recursive calls when decorated, eg when using BufferedJSONStreamReader */
   private Event dnext() throws IOException, ParseException {
+
+    if (exhausted) {
+      token = null; // resets value
+      return null;
+    }
 
     if (!nextCalledForTheFirstTime) {
       nextCalledForTheFirstTime = true;
@@ -121,6 +128,7 @@ public class JSONStreamReader {
 
     token = lexer.yylex();
     if (token == null) {
+      exhausted = true;
       return Event.END_DOCUMENT;
     }
 
@@ -251,7 +259,8 @@ public class JSONStreamReader {
 
 
   /**
-   * This class is the return value of {@link org.json.simple.parser.JSONStreamReader#next()}.
+   * An instance of this class is the return value of {@link org.json.simple.parser.JSONStreamReader#next()}.
+   *
    * <p/>
    *
    * @author karl.wettin@kodapan.se

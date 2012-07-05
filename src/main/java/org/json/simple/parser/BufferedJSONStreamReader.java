@@ -11,10 +11,18 @@ import java.util.LinkedList;
  */
 public class BufferedJSONStreamReader extends JSONStreamReader {
 
+  public static int DEFAULT_BUFFER_SIZE = 50;
+
+  private final int bufferSize;
+
   public BufferedJSONStreamReader(Reader json) {
-    this(json, 50);
+    this(json, DEFAULT_BUFFER_SIZE);
   }
 
+  /**
+   * @param json JSON data
+   * @param bufferSize Number of historic events and associated values to keep track of, i.e. how many times you can execute {@link #back()} without encountering an exception.
+   */
   public BufferedJSONStreamReader(Reader json, int bufferSize) {
     super(json);
     this.bufferSize = bufferSize;
@@ -23,7 +31,6 @@ public class BufferedJSONStreamReader extends JSONStreamReader {
   private LinkedList events = new LinkedList();
   private LinkedList values = new LinkedList();
 
-  private int bufferSize = 50;
   private int cursor = 0;
 
   public String getStringValue() {
@@ -79,6 +86,7 @@ public class BufferedJSONStreamReader extends JSONStreamReader {
    * Moves the cursor one step back.
    * @see #back(int)
    * @return The event at the new position of the cursor.
+   * @throws ArrayIndexOutOfBoundsException When seeking beyond buffer size.
    */
   public Event back() {
     return back(1);
@@ -88,11 +96,12 @@ public class BufferedJSONStreamReader extends JSONStreamReader {
    * Moves the cursor backwards.
    * @param size Number of steps to move the cursor backwards.
    * @return The event at the new position of the cursor.
+   * @throws ArrayIndexOutOfBoundsException When seeking beyond buffer size.
    */
   public Event back(int size) {
     cursor += size;
     if (cursor > events.size()) {
-      throw new ArrayIndexOutOfBoundsException("Seeked beyond buffer.");
+      throw new ArrayIndexOutOfBoundsException("Sought beyond buffer! You need to increase the buffer size to avoid this error.");
     }
     return (Event)events.get(cursor);
   }
